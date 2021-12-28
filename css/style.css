@@ -104,6 +104,14 @@ input[type='radio']:checked::before {
   gap: 40px;
 }
 
+.cards-wrapper.column-3 {
+  grid-template-columns: 150px 150px 150px;
+}
+
+.cards-wrapper.column-4 {
+  grid-template-columns: 150px 150px 150px 150px;
+}
+
 .card-container {
   perspective: 1000;
   transform-style: preserve-3d;
