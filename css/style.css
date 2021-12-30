@@ -162,6 +162,9 @@ input[type='radio']:checked::before {
 .card__back {
   transform: rotateY(-180deg);
   background: lightblue;
+  background-size: 70%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .card-container.flipCard .card__front {
@@ -170,4 +173,38 @@ input[type='radio']:checked::before {
 
 .card-container.flipCard .card__back {
   transform: rotateY(0deg);
+}
+
+/* card image */
+
+.card__back.img-1 {
+  background-image: url(../img/img-1.png);
+}
+
+.card__back.img-2 {
+  background-image: url(../img/img-2.png);
+}
+
+.card__back.img-3 {
+  background-image: url(../img/img-3.png);
+}
+
+.card__back.img-4 {
+  background-image: url(../img/img-4.png);
+}
+
+.card__back.img-5 {
+  background-image: url(../img/img-5.png);
+}
+
+.card__back.img-6 {
+  background-image: url(../img/img-6.png);
+}
+
+.card__back.img-7 {
+  background-image: url(../img/img-7.png);
+}
+
+.card__back.img-8 {
+  background-image: url(../img/img-8.png);
 }

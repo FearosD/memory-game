@@ -78,6 +78,14 @@ class MemoryGame {
 
     console.log(this.correctCards);
 
+    this.correctCards.forEach((pairCards, index) => {
+      const [first, second] = pairCards;
+      const firstCard = document.querySelector(`[id='${first}'] .card__back`);
+      const secondCard = document.querySelector(`[id='${second}'] .card__back`);
+      firstCard.classList.add(`img-${index+1}`);
+      secondCard.classList.add(`img-${index+1}`);
+    });
+
     this.shuffleCard();
   }
 
