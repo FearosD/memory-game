@@ -67,16 +67,12 @@ class MemoryGame {
     const cardsArr = [];
 
     cards.forEach((card) => cardsArr.push(card.id));
-
     this.correctCards = cardsArr.reduce((resultArray, item, index) => {
       const chunkIndex = Math.floor(index / 2);
-
       if (!resultArray[chunkIndex]) {
         resultArray[chunkIndex] = [];
       }
-
       resultArray[chunkIndex].push(item);
-
       return resultArray;
     }, []);
 
