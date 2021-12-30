@@ -7,21 +7,6 @@ const flipCard = (event) => {
 
 cards.forEach((card) => card.addEventListener('click', flipCard));
 
-// const choiceField = (event) => {
-//   const choiceFields = document.getElementsByName('gameField');
-//   let gameField;
-//   for (let i = 0; i < choiceFields.length; i++) {
-//     if (choiceFields[i].checked) {
-//       gameField = choiceFields[i].value;
-//     }
-//   }
-//   return gameField;
-// };
-
-// const choiceBtn = document.querySelector('.choice__button');
-
-// choiceBtn.addEventListener('click', choiceField);
-
 class MemoryGame {
   constructor() {
     this.widthField = 0;
@@ -36,7 +21,7 @@ class MemoryGame {
       }
     }
     this.widthField = gameField.slice(0, 1);
-    this.clearChoice();
+    console.log(this.widthField);
     return true;
   }
 
@@ -46,23 +31,17 @@ class MemoryGame {
     return true;
   }
 
-  runChoice() {
-    this.choiceField();
-      // this.clearChoice();
-      return true;
-  }
-
-  choiceBehavior() {
-    const choiceBtn = document.querySelector('.choice__button');
-    choiceBtn.addEventListener('click', this.choiceField);
-  }
-
   runGame() {
-    this.choiceBehavior();
+    this.choiceField();
+    this.clearChoice();
   }
 }
 
 
 const game = new MemoryGame;
+const boundGame = game.runGame.bind(game);
 
-game.runGame();
+
+
+const choiceBtn = document.querySelector('.choice__button');
+choiceBtn.addEventListener('click', boundGame);
