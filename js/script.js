@@ -2,6 +2,7 @@ class MemoryGame {
   constructor() {
     this.widthField = 0;
     this.heightField = 0;
+    this.correctCards = [];
   }
 
   choiceField() {
@@ -28,27 +29,60 @@ class MemoryGame {
   }
 
   buildField() {
-    const cardTemplate = `
-    <div class="card-container">
-      <div class="card">
-        <div class="card__front">
-        </div>
-        <div class="card__back">
-        </div>
-      </div>
-    </div>
-    `;
-
     const cardsWrapper = document.querySelector('.cards-wrapper');
     cardsWrapper.classList.add(`column-${this.widthField}`);
 
     const countCards = this.widthField * this.heightField;
 
-    for (let i = 0; i < countCards; i += 1) {
-      cardsWrapper.insertAdjacentHTML('beforeend', cardTemplate);
+    for (let i = 1; i <= countCards; i += 1) {
+      cardsWrapper.insertAdjacentHTML(
+        'beforeend',
+        `
+      <div class="card-container" id="${i}">
+        <div class="card">
+          <div class="card__front">
+          </div>
+          <div class="card__back">
+          </div>
+        </div>
+      </div>
+      `
+      );
     }
 
     return true;
+  }
+
+  shuffleCard() {
+    const cardsWrapper = document.querySelector('.cards-wrapper');
+    for (let i = cardsWrapper.children.length; i >= 0; i -= 1) {
+      cardsWrapper.appendChild(cardsWrapper.children[(Math.random() * i) | 0]);
+    }
+  }
+
+  generateCorrectCard() {
+    this.shuffleCard();
+
+    const cards = document.querySelectorAll('.card-container');
+    const cardsArr = [];
+
+    cards.forEach((card) => cardsArr.push(card.id));
+
+    this.correctCards = cardsArr.reduce((resultArray, item, index) => {
+      const chunkIndex = Math.floor(index / 2);
+
+      if (!resultArray[chunkIndex]) {
+        resultArray[chunkIndex] = [];
+      }
+
+      resultArray[chunkIndex].push(item);
+
+      return resultArray;
+    }, []);
+
+    console.log(this.correctCards);
+
+    this.shuffleCard();
   }
 
   behaviorCard() {
@@ -66,6 +100,7 @@ class MemoryGame {
     this.choiceField();
     this.clearChoice();
     this.buildField();
+    this.generateCorrectCard();
     this.behaviorCard();
   }
 }
