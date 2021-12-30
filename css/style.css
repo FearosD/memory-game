@@ -3,8 +3,8 @@
 }
 
 body {
-  width:100wh;
-  height:100vh;
+  width: 100wh;
+  height: 100vh;
   padding: 0px;
   margin: 0px;
   font-family: sans-serif;
@@ -17,7 +17,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;;
+  align-items: center;
 }
 
 /* choice  */
@@ -207,4 +207,15 @@ input[type='radio']:checked::before {
 
 .card__back.img-8 {
   background-image: url(../img/img-8.png);
+}
+
+/* game close */
+
+.game-close {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
 }
