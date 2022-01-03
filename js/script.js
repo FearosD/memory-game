@@ -4,6 +4,8 @@ class MemoryGame {
     this.heightField = 0;
     this.correctCards = [];
     this.currentCards = [];
+    this.gameClose = document.querySelector('.game-close');
+    this.gameRound = 0;
   }
 
   choiceField() {
@@ -51,6 +53,16 @@ class MemoryGame {
       );
     }
 
+    cardsWrapper.insertAdjacentHTML(
+      'beforeend',
+      `
+      <div class="game-round">
+        <div class="game-round__caption">Количество ходов</div>
+        <div class="game-round__count">0</div>
+      </div>
+    `
+    );
+
     return true;
   }
 
@@ -78,7 +90,6 @@ class MemoryGame {
       return resultArray;
     }, []);
     this.correctCards.forEach((cards) => cards.sort((a, b) => a - b));
-    console.log(this.correctCards);
 
     this.correctCards.forEach((pairCards, index) => {
       const [first, second] = pairCards;
@@ -92,26 +103,6 @@ class MemoryGame {
     return true;
   }
 
-  checkAnswer(id) {
-    this.currentCards.push(id);
-    if (this.currentCards.length === 2) return this.checkCorrects();
-  }
-  compareCards (card1, card2)  {
-    if (card1[0] !== card2[0]) return false;
-    if (card1[1] !== card2[1]) return false;
-    return true;
-  }
-  checkCorrects() {
-    const gameClose = document.querySelector('.game-close');
-    gameClose.style.display = 'block';
-    const currentCards = this.currentCards.sort((a, b) => a - b);
-    const [first, second] = currentCards;
-    const firstCard = document.querySelector(`[id='${first}']`);
-    const secondCard = document.querySelector(`[id='${second}']`);
-    console.log(this.compareCards(this.correctCards, currentCards));
-    console.log(currentCards);
-  }
-
   behaviorCard() {
     const cards = document.querySelectorAll('.card-container');
 
@@ -120,13 +111,87 @@ class MemoryGame {
       cardContainer.classList.toggle('flipCard');
     };
 
-    const getId = (event) => {
+    const choiceCard = (event) => {
       const cardContainer = event.target.parentNode.parentNode;
       this.checkAnswer(cardContainer.id);
     };
 
     cards.forEach((card) => card.addEventListener('click', flipCard));
-    cards.forEach((card) => card.addEventListener('click', getId));
+    cards.forEach((card) => card.addEventListener('click', choiceCard));
+  }
+
+  checkAnswer(id) {
+    const currentCard = document.querySelector(`[id='${id}']`);
+    currentCard.classList.add('disable');
+    this.currentCards.push(id);
+    if (this.currentCards.length === 2) {
+      this.gameClose.style.display = 'block';
+      return this.checkCorrects()};
+  }
+
+  checkCorrects() {
+    this.currentCards.sort((a, b) => a - b);
+    let compare = false;
+    for (const card of this.correctCards) {
+      if (this.compareCards(card, this.currentCards)) {
+        compare = true;
+        break;
+      }
+    }
+    if (compare) return this.correctChoice();
+    return this.wrongChoice();
+  }
+
+  compareCards(card1, card2) {
+    if (card1[0] !== card2[0]) return false;
+    if (card1[1] !== card2[1]) return false;
+    return true;
+  }
+
+  correctChoice() {
+    setTimeout(() => {
+      this.correctCards = this.correctCards.filter(
+        (card) => !this.compareCards(card, this.currentCards)
+      );
+      this.gameClose.style.display = 'none';
+      this.currentCards = [];
+      this.countRound();
+      if (this.correctCards.length === 0) this.endGame();
+    }, 1000);
+  }
+
+  wrongChoice() {
+    setTimeout(() => {
+      const [first, second] = this.currentCards;
+      const firstCard = document.querySelector(`[id='${first}']`);
+      const secondCard = document.querySelector(`[id='${second}']`);
+      firstCard.classList.toggle('flipCard');
+      secondCard.classList.toggle('flipCard');
+      firstCard.classList.remove('disable');
+      secondCard.classList.remove('disable');
+      this.gameClose.style.display = 'none';
+      this.currentCards = [];
+      this.countRound();
+    }, 1000);
+  }
+
+  countRound() {
+    const countText = document.querySelector('.game-round__count');
+    this.gameRound += 1;
+    countText.textContent = this.gameRound;
+  }
+
+  endGame() {
+    const gameRound = document.querySelector('.game-round');
+    gameRound.insertAdjacentHTML(
+      'beforeend',
+      `
+      <div class="game-round__win-caption">Победа!</div>
+      <div class="game-round__end-button">Повторить</div>
+    `
+    );
+    const endBtn = document.querySelector('.game-round__end-button');
+    endBtn.addEventListener('click', ()=> document.location.reload());
   }
 
   runGame() {

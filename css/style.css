@@ -175,6 +175,13 @@ input[type='radio']:checked::before {
   transform: rotateY(0deg);
 }
 
+.card-container.disable,
+.card-container.disable .card,
+.card-container.disable .card__front,
+.card-container.disable .card__back {
+  pointer-events: none;
+}
+
 /* card image */
 
 .card__back.img-1 {
@@ -218,4 +225,44 @@ input[type='radio']:checked::before {
   top: 0;
   left: 0;
   display: none;
+}
+
+/* game round */
+
+.game-round {
+  position: absolute;
+  left: 2em;
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  user-select: none;
+}
+
+.game-round__count {
+  margin: 10px 0px;
+  font-size: 28px;
+}
+.game-round__win-caption {
+  font-weight: bold;
+  color:#2d830e;
+}
+
+.game-round__end-button {
+  margin-top:20px;
+  font-size: 18px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 32px;
+  width: 138px;
+  height: 41px;
+  background: #c0e8f4;
+  border-radius: 50px;
+  user-select: none;
+}
+
+.game-round__end-button:hover {
+  background: #5fbcda;
 }
